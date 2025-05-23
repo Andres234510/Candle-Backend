@@ -34,6 +34,7 @@ public class AuthService {
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
 
+
         // Comparar manualmente las contraseñas
         boolean passwordMatches = passwordEncoder.matches(request.getPassword(), user.getPassword());
         if (!passwordMatches) {
