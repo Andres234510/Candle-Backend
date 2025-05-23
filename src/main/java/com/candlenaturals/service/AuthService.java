@@ -27,11 +27,13 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private EmailService emailService;
 
     public AuthResponse login(LoginRequest request) {
         // Buscar el usuario por email
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
+
 
         // Comparar manualmente las contraseñas
         boolean passwordMatches = passwordEncoder.matches(request.getPassword(), user.getPassword());
@@ -47,7 +49,6 @@ public class AuthService {
 
 
     public AuthResponse register(RegisterRequest request) {
-
         User user = User.builder()
                 .nombre(request.getNombre())
                 .apellido(request.getApellido())
@@ -55,13 +56,15 @@ public class AuthService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .telefono(request.getTelefono())
                 .rol(Role.valueOf(request.getRol()))
-
                 .activo(true)
                 .build();
+
         userRepository.save(user);
+
+        // ✅ Enviar correo
+        emailService.sendConfirmationEmail(user.getEmail(), user.getNombre());
+
         String token = jwtService.generateToken(user);
-        return AuthResponse.builder()
-                .token(token)
-                .build();
+        return AuthResponse.builder().token(token).build();
     }
 }
