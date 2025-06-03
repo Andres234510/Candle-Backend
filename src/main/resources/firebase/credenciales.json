@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "candle-naturals",
+  "private_key_id": "71f898d06e0bc508ffd7e172e5141369d3f0fc47",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDqlGS0VYBviprq\njFfaksUP6GC5kTCGRhIpI+6mIvLhSWF3PphGdrtv23J8yZGB0+MyHFXQm4oE4KaH\nhs5MdF3R4SV1VrqK7XZcRvTq5+qNP+UTK875uvNtppgz8H+C/h3DEnefBlb5JKTU\nEkDTis3Ryre4KKpdyK+w6DcytC2ZmgpL2P2oDiYBNa47+qVUvti1v4cW8zqypj7e\nVLZJc8C6FJtUEu3rqPqoZ2MNV557QOopHPuGkixOndQ2zjVCo+GTCFZVrDZgjopy\nXjVu7QFFko5iT8em9P57d53OmipvWmLuzBlsQpsr0cH1BQuC8jwvicFj007tADTF\nQsRFLuf5AgMBAAECggEAC1R5RDYEfu6vgpBefmu8GaN4R4I2GSgpgKPwBwV1XHEA\nRIOJFI8vyKxtXE5aiS4gITeZ4/pdOVTV6kIWNP5iWSyiE+epWSQ0xSp2siFbNHEP\negRxyeFQGF3VaF3PdNbb/mPmE+/ZE83DqcwLZkREImPDiaEqMF8s8DMZFml6MdrV\nfue/JdGMLqSKuyd8Ya/BLUXpZ2Hnv63W9Aa+tv/OOyDqVmsGFH1Cgepbkdhpu3DV\nwq8uAsFsAJ369DMwmRZdasDK4ZHEuMZD1yr7VF5GljKqz9HjrchDTkoT+sy06HUb\nYYCf2SZGjUOvxotWoB28P0XXK8+gObpovs2d78/WAQKBgQD/bx+YVET75i13Wp0h\n13hKeugBtOgm9zA4NjdYrpgjGK3mVF+uIcYxcrlzrookKZCrroZWTVMsJHY81r0A\ngaic5rQDz7hbTXtvafXIiCluExjbtBOtmKfx5Svk2wsVkb2bTu5Y0z8JMWmBdebB\nDzgwe6c5+mz1fDq91oNbSH5Z+QKBgQDrGXEZa7WDAyp5pabdTBzdi715nLFyXplj\nVxzFGF1AAK4xeA21R2L7vhDjDP+3Fp0mwCVYBgHO0U39unQnImDbbMZixST0JwWC\nYF0kvh2feNtLD3iGk4wifWp2rI5EHSDkaDvc0jkadjUtE/WwGwnKHMCoLJFcowOj\nszRWCah+AQKBgQCQsF6CSAHHeov4lsB5QfdmoRY4mUQDhnOu868IMeYFw14GIXcN\nSR5eNjEsgQrJDy5ewX5g9m4NjB3Zun3XApsDPX9sxUYVmd84rhnGXLKzImgrU2bu\nJ5HCaOEjQpyVvDdd+Sjz8b08NNwhtCpg44EdnX2NTvhXWeZgUFmZ5IeF6QKBgARk\nDUC0SkeQH5L2DQ/FBCT/HyLOUmIYcjTww5DKy7MOUDKMU3U3SBn7isUy0PPScEzw\n+cGTGyWJszMx8Elq0vRGK85ccDw/HlM5CYROKK95yl60g0PALbXXMc3VmzKaeKrL\nZ5LQOlDMNGILJWOMnbown0iEzJI2WTMNfcS9mXABAoGBAI2nrJKTI7ArYdFp12L8\nkM9Q+m9aIfD8Wf3Z161T9LxtENjeWj4ZN7i/oA4dKqzxKx0tDNfhVcec5wfYd4yd\nyWOnwU1/tRd0n9LJAp6n+q5VO7dDsh//6oG4g7x673du58P89nHNmL1i9HnLirFG\n3WOdBk6YhME1oW8Ny1UMsUEu\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-fbsvc@candle-naturals.iam.gserviceaccount.com",
+  "client_id": "102041657439393343811",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40candle-naturals.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
