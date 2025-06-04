@@ -1,7 +1,6 @@
 package com.candlenaturals.controller;
 
 import com.candlenaturals.dto.AuthResponse;
-import com.candlenaturals.dto.GoogleTokenRequest;
 import com.candlenaturals.dto.LoginRequest;
 import com.candlenaturals.dto.RegisterRequest;
 import com.candlenaturals.service.AuthService;
@@ -14,12 +13,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Map;
-
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
-@Tag(name = "Autenticación", description = "Controlador para el login y registro de usuarios")
+@Tag(name = "Autenticación", description = "Controlador para login, registro y autenticación con Google")
 public class AuthController {
 
     private final AuthService authService;
@@ -31,13 +28,9 @@ public class AuthController {
             AuthResponse response = authService.login(request);
             return ResponseEntity.ok(response);
         } catch (ResponseStatusException ex) {
-            return ResponseEntity
-                    .status(ex.getStatusCode())
-                    .body(ex.getReason());
+            return ResponseEntity.status(ex.getStatusCode()).body(ex.getReason());
         } catch (Exception ex) {
-            return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error inesperado al iniciar sesión");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error inesperado al iniciar sesión");
         }
     }
 
@@ -48,25 +41,21 @@ public class AuthController {
             AuthResponse response = authService.register(request);
             return ResponseEntity.ok(response);
         } catch (ResponseStatusException ex) {
-            return ResponseEntity
-                    .status(ex.getStatusCode())
-                    .body(ex.getReason());
+            return ResponseEntity.status(ex.getStatusCode()).body(ex.getReason());
         } catch (Exception ex) {
-            return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error inesperado al registrar el usuario");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error inesperado al registrar el usuario");
         }
     }
 
+    @Operation(summary = "Iniciar sesión con Google", description = "Autentica a un usuario usando Google Sign-In")
     @PostMapping("/google")
-    public ResponseEntity<?> googleLogin(@RequestBody Map<String, String> body) {
+    public ResponseEntity<?> loginWithGoogle(@RequestBody String token) {
         try {
-            String idToken = body.get("token");
-            if (idToken == null || idToken.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Token de Google no proporcionado");
+            if (token == null || token.trim().isEmpty()) {
+                return ResponseEntity.badRequest().body("Token de Google no proporcionado");
             }
 
-            AuthResponse response = authService.loginWithGoogle(idToken);
+            AuthResponse response = authService.loginWithGoogle(token);
             return ResponseEntity.ok(response);
         } catch (ResponseStatusException ex) {
             return ResponseEntity.status(ex.getStatusCode()).body(ex.getReason());
@@ -74,8 +63,4 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al autenticar con Google");
         }
     }
-
-
-
-
 }
