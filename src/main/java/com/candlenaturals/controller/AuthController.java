@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
@@ -30,6 +32,7 @@ public class AuthController {
         } catch (ResponseStatusException ex) {
             return ResponseEntity.status(ex.getStatusCode()).body(ex.getReason());
         } catch (Exception ex) {
+            ex.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error inesperado al iniciar sesión");
         }
     }
@@ -49,9 +52,10 @@ public class AuthController {
 
     @Operation(summary = "Iniciar sesión con Google", description = "Autentica a un usuario usando Google Sign-In")
     @PostMapping("/google")
-    public ResponseEntity<?> loginWithGoogle(@RequestBody String token) {
+    public ResponseEntity<?> loginWithGoogle(@RequestBody Map<String, String> request) {
         try {
-            if (token == null || token.trim().isEmpty()) {
+            String token = request.get("token");
+            if (token == null || token.isEmpty()) {
                 return ResponseEntity.badRequest().body("Token de Google no proporcionado");
             }
 
@@ -63,4 +67,5 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al autenticar con Google");
         }
     }
+
 }

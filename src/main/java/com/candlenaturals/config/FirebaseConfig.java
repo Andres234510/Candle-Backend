@@ -14,7 +14,11 @@ public class FirebaseConfig {
 
     @PostConstruct
     public void initializeFirebase() throws IOException {
-        InputStream serviceAccount = getClass().getResourceAsStream("/firebase/credenciales.json");
+        InputStream serviceAccount = getClass().getClassLoader().getResourceAsStream("firebase/credenciales.json");
+
+        if (serviceAccount == null) {
+            throw new IOException("Archivo credenciales.json no encontrado en classpath");
+        }
 
         FirebaseOptions options = FirebaseOptions.builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))

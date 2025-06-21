@@ -27,11 +27,11 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
-
+    private final EmailService emailService;
     @Getter
     private final AuthenticationManager authenticationManager;
-    @Setter
-    private EmailService emailService;
+
+
 
     public AuthResponse login(LoginRequest request) {
         // Buscar el usuario por email
@@ -53,23 +53,39 @@ public class AuthService {
 
 
     public AuthResponse register(RegisterRequest request) {
-        User user = User.builder()
-                .nombre(request.getNombre())
-                .apellido(request.getApellido())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .telefono(request.getTelefono())
-                .rol(Role.valueOf(request.getRol().toLowerCase()))
-                .activo(true)
-                .build();
+        try {
+            // Convierte el rol (string) a minúsculas
+            Role roleEnum = Role.valueOf(request.getRol().toString().toLowerCase());
 
-        userRepository.save(user);
+            User user = User.builder()
+                    .nombre(request.getNombre())
+                    .apellido(request.getApellido())
+                    .email(request.getEmail())
+                    .password(passwordEncoder.encode(request.getPassword()))
+                    .telefono(request.getTelefono())
+                    .rol(roleEnum)
+                    .activo(true)
+                    .build();
 
-        emailService.sendConfirmationEmail(user.getEmail(), user.getNombre());
+            userRepository.save(user);
 
-        String token = jwtService.generateToken(user);
-        return AuthResponse.builder().token(token).build();
+            emailService.sendConfirmationEmail(user.getEmail(), user.getNombre());
+
+            String token = jwtService.generateToken(user);
+            return AuthResponse.builder()
+                    .token(token)
+                    .build();
+
+        } catch (IllegalArgumentException e) {
+            // Error si el rol no existe en el enum
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Rol inválido: " + request.getRol());
+        } catch (Exception e) {
+            // Error inesperado
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error inesperado al registrar el usuario");
+        }
     }
+
+
 
     public AuthResponse loginWithGoogle(String idToken) {
         try {
