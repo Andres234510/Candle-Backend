@@ -3,9 +3,13 @@ package com.candlenaturals.controller;
 import com.candlenaturals.dto.AuthResponse;
 import com.candlenaturals.dto.LoginRequest;
 import com.candlenaturals.dto.RegisterRequest;
+import com.candlenaturals.entity.User;
+import com.candlenaturals.repository.UserRepository;
+import com.candlenaturals.security.JwtService;
 import com.candlenaturals.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,6 +26,8 @@ import java.util.Map;
 public class AuthController {
 
     private final AuthService authService;
+    private final JwtService jwtService;
+    private final UserRepository userRepository;
 
     @Operation(summary = "Iniciar sesión", description = "Autentica a un usuario y devuelve un token JWT")
     @PostMapping("/login")
@@ -67,5 +73,31 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al autenticar con Google");
         }
     }
+
+    @Operation(summary = "Refrescar token", description = "Devuelve un nuevo token JWT si el actual es válido")
+    @PostMapping("/refresh-token")
+    public ResponseEntity<AuthResponse> refreshToken(HttpServletRequest request) {
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token no proporcionado");
+        }
+
+        String token = authHeader.substring(7);
+
+        String email = jwtService.extractUsername(token);
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
+
+        if (!jwtService.isTokenValid(token, user)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token inválido o expirado");
+        }
+
+        String newToken = jwtService.generateToken(user);
+
+        return ResponseEntity.ok(AuthResponse.builder().token(newToken).build());
+    }
+
+
 
 }

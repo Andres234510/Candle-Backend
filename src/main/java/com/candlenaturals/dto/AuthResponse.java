@@ -1,5 +1,6 @@
 package com.candlenaturals.dto;
 
+import com.candlenaturals.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,6 +10,6 @@ import lombok.Data;
 @Builder
 public class AuthResponse {
     private String token;
-    private String rol;
+    private Role rol;
     private String message;
 }

@@ -34,6 +34,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/login").permitAll()
                         .requestMatchers("/api/auth/register").permitAll()
                         .requestMatchers("/api/auth/google").permitAll()
+                        .requestMatchers("/api/auth/refresh-token").permitAll()
 
                         // Swagger si lo estás usando
                         .requestMatchers(
