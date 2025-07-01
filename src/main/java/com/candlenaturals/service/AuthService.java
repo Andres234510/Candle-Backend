@@ -45,11 +45,13 @@ public class AuthService {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Contraseña incorrecta");
         }
         String token = jwtService.generateToken(user);
+
+        // ¡AQUÍ ESTÁ EL CAMBIO! Incluye el rol del usuario en la respuesta.
         return AuthResponse.builder()
                 .token(token)
+                .rol(user.getRol()) // <-- Añade esta línea
                 .build();
     }
-
 
 
     public AuthResponse register(RegisterRequest request) {
@@ -72,6 +74,7 @@ public class AuthService {
             emailService.sendConfirmationEmail(user.getEmail(), user.getNombre());
 
             String token = jwtService.generateToken(user);
+
             return AuthResponse.builder()
                     .token(token)
                     .build();
@@ -80,18 +83,14 @@ public class AuthService {
             // Error si el rol no existe en el enum
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Rol inválido: " + request.getRol());
         } catch (Exception e) {
-            // Error inesperado
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error inesperado al registrar el usuario");
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al registrar usuario: " + e.getMessage());
         }
     }
 
 
-
     public AuthResponse loginWithGoogle(String idToken) {
         try {
-            // Verifica el token con Firebase
             FirebaseToken firebaseToken = FirebaseAuth.getInstance().verifyIdToken(idToken);
-
             String email = firebaseToken.getEmail();
             String name = firebaseToken.getName(); // Nombre completo
             String uid = firebaseToken.getUid();
