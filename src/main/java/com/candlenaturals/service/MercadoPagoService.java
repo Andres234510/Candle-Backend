@@ -13,21 +13,16 @@ public class MercadoPagoService {
     private static final String ACCESS_TOKEN = "TEST-2771343550066865-062422-34b3e39958cea0195147edf969f86380-2513633161";
     private static final String API_URL = "https://api.mercadopago.com/checkout/preferences";
 
-    public String crearPreferencia(String titulo, int cantidad, float precio) {
+    public String crearPreferencia(List<Map<String, Object>> items) {
         RestTemplate restTemplate = new RestTemplate();
 
-        // Cuerpo de la preferencia
+        // El cuerpo ya recibe la lista de ítems directamente
         Map<String, Object> body = Map.of(
-                "items", List.of(Map.of(
-                        "title", titulo,
-                        "quantity", cantidad,
-                        "unit_price", precio,
-                        "currency_id", "COP"
-                )),
+                "items", items, // Usar la lista de ítems recibida
                 "back_urls", Map.of(
-                        "success", "http://localhost:3000/pago-exitoso",
-                        "failure", "http://localhost:3000/pago-fallido",
-                        "pending", "http://localhost:3000/pago-pendiente"
+                        "success", "http://localhost:5173/pago-exitoso",
+                        "failure", "http://localhost:5173/pago-fallido",
+                        "pending", "http://localhost:5173/pago-pendiente"
                 ),
                 "auto_return", "approved"
         );

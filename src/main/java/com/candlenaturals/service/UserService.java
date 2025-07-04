@@ -3,12 +3,18 @@ package com.candlenaturals.service;
 import com.candlenaturals.entity.User;
 import com.candlenaturals.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.Authentication; // Importa Authentication
 import org.springframework.security.core.context.SecurityContextHolder; // Importa SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetails; // Importa UserDetails
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
+
+import java.util.Collections;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -63,4 +69,7 @@ public class UserService {
 
         return userRepository.save(existingUser);
     }
+
+
+
 }
