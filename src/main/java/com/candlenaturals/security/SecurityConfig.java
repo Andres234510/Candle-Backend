@@ -38,7 +38,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/refresh-token").permitAll()
                         .requestMatchers("/api/auth/logout").permitAll()
                         .requestMatchers("/api/pagos/crear-preferencia").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/products/register").permitAll() // Permite solo a ADMIN registrar productos
+                        .requestMatchers(HttpMethod.POST, "/api/products/register").hasRole("administrador")
                         .requestMatchers(
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
